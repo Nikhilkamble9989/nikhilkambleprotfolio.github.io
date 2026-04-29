@@ -24,6 +24,8 @@ body {
 /* CARD */
 .card {
   background: #ffffff;
+  width: 500px;
+  margin: auto;
   border-radius: 20px;
   text-align: center;
   padding-bottom: 30px;
@@ -106,6 +108,8 @@ h2 {
   border-radius: 20px;
   border: none;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .btn:hover {
@@ -113,24 +117,9 @@ h2 {
   color: black;
 }
 
-/* ABOUT */
-.about-box {
-  display: none;
-  background: #f3f4f6;
-  margin: 15px auto;
-  padding: 15px;
-  width: 80%;
-  border-radius: 12px;
-}
-
-/* PROJECTS SECTION */
+/* PROJECTS */
 .projects {
   margin-top: 40px;
-}
-
-.projects h2 {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .project-grid {
@@ -139,9 +128,8 @@ h2 {
   gap: 20px;
 }
 
-/* PROJECT CARD */
 .project-card {
-  background: #ffffff;
+  background: #fff;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -154,21 +142,13 @@ h2 {
 }
 
 .project-card h3 {
-  margin: 0 0 10px;
+  margin: 0;
   color: #111827;
 }
 
 .project-card p {
   font-size: 14px;
   color: #555;
-}
-
-.project-card a {
-  display: inline-block;
-  margin-top: 10px;
-  color: #bfa046;
-  text-decoration: none;
-  font-weight: bold;
 }
 </style>
 </head>
@@ -179,7 +159,9 @@ h2 {
 
   <!-- PROFILE CARD -->
   <div class="card">
+
     <div class="card-header"></div>
+
     <img src="nikhilkamble.jpg" class="profile-pic">
 
     <h2>Nikhil Kamble</h2>
@@ -193,40 +175,35 @@ h2 {
     </div>
 
     <div class="icons">
-      <a href="#"><i class="fa-solid fa-envelope"></i></a>
+      <a href="mailto:example@gmail.com"><i class="fa-solid fa-envelope"></i></a>
       <a href="#"><i class="fa-brands fa-github"></i></a>
       <a href="#"><i class="fa-brands fa-linkedin"></i></a>
     </div>
 
-    <button class="btn" onclick="toggleAbout()">About Me</button>
+    <!-- ABOUT BUTTON (REDIRECT) -->
+    <a href="about.html" class="btn">About Me</a>
 
-    <div id="about" class="about-box">
-      I am an aspiring full-stack developer passionate about building modern web applications.
-    </div>
   </div>
 
   <!-- PROJECTS -->
   <div class="projects">
-    <h2>My Projects</h2>
+    <h2 style="text-align:center; margin-top:40px;">My Projects</h2>
 
     <div class="project-grid">
 
       <div class="project-card">
         <h3>Portfolio Website</h3>
-        <p>A personal portfolio to showcase my skills and projects.</p>
-        <a href="#">View Project</a>
+        <p>Personal portfolio to showcase skills.</p>
       </div>
 
       <div class="project-card">
         <h3>To-Do App</h3>
-        <p>A simple task management app using JavaScript.</p>
-        <a href="#">View Project</a>
+        <p>Task management using JavaScript.</p>
       </div>
 
       <div class="project-card">
         <h3>Weather App</h3>
-        <p>Displays live weather data using API integration.</p>
-        <a href="#">View Project</a>
+        <p>Live weather API project.</p>
       </div>
 
     </div>
@@ -257,11 +234,6 @@ function type() {
   setTimeout(type, isDeleting ? 50 : 100);
 }
 type();
-
-function toggleAbout() {
-  const box = document.getElementById("about");
-  box.style.display = box.style.display === "block" ? "none" : "block";
-}
 </script>
 
 </body>
