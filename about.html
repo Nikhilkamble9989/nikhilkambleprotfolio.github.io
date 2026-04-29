@@ -3,69 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Me</title>
+<title>About Me - Portfolio</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #f8fafc, #e5e7eb);
-  display: flex;s
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.box {
-  background: white;
-  width: 500px;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-h1 {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
   color: #111827;
 }
 
+/* CONTAINER */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 50px 20px;
+}
+
+/* HEADINGS */
+h1, h2 {
+  color: #0a1f44;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+/* TEXT */
 p {
-  color: #555;
-  line-height: 1.6;
+  color: #374151;
+  line-height: 1.8;
 }
 
-.btn {
+/* CARD */
+.card {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 15px;
+  border: 1px solid #e5e7eb;
+}
+
+/* SKILLS */
+.skills span {
   display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: #111827;
-  color: white;
+  background: #f3f4f6;
+  color: #111827;
+  padding: 8px 14px;
+  margin: 6px;
   border-radius: 20px;
-  text-decoration: none;
+  font-size: 13px;
+  transition: 0.3s;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
 }
 
-.btn:hover {
+.skills span:hover {
   background: #bfa046;
-  color: black;
+  color: white;
+  transform: translateY(-3px);
+  border-color: #bfa046;
+}
+
+/* PROJECT BOX */
+.project {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.project:hover {
+  transform: translateY(-3px);
+  border-color: #bfa046;
+}
+
+/* ICONS */
+.icons {
+  margin-top: 15px;
+}
+
+.icons i {
+  margin: 0 15px;
+  color: #6b7280;
+  font-size: 22px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.icons i:hover {
+  color: #bfa046;
+  transform: scale(1.2);
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
   <h1>About Me</h1>
 
   <p>
-    I am Nikhil Kamble, an aspiring full-stack developer passionate about building modern web applications.
+    Hello! I’m <b>Nikhil Kamble</b>, a dedicated web developer with a strong passion for designing and developing clean, responsive, and user-friendly web applications. I specialize in frontend development using HTML, CSS, and JavaScript. I also have experience with SQL and MongoDB and I am working toward becoming a full-stack developer with strong industry-level skills.
   </p>
 
-  <p>
-    I enjoy learning technologies like HTML, CSS, JavaScript and improving my skills through projects.
-  </p>
+  <!-- EXPERIENCE -->
+  <div class="card">
+    <h2>Experience</h2>
+    <p>
+      I have worked on multiple frontend projects using HTML, CSS, and JavaScript.
+      I have developed portfolio websites to strengthen my development skills and UI understanding.
+    </p>
+  </div>
 
-  <a href="index.html" class="btn">⬅ Back</a>
+  <!-- SKILLS -->
+  <div class="card">
+    <h2>Skills</h2>
+    <div class="skills">
+      <span>HTML5</span>
+      <span>CSS3</span>
+      <span>JavaScript</span>
+      <span>Responsive Design</span>
+      <span>UI/UX Basics</span>
+      <span>SQL</span>
+      <span>MongoDB</span>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="card">
+    <h2>Projects</h2>
+
+    <div class="project">
+      <h3>Portfolio Website</h3>
+      <p>
+        A personal responsive portfolio website built using HTML and CSS to showcase my skills, experience, and projects.
+      </p>
+    </div>
+
+    <div class="project">
+      <h3>Agriculture Equipment Rental System</h3>
+      <p>
+        A system designed to manage rental of agricultural equipment efficiently with basic database integration.
+      </p>
+    </div>
+
+    <div class="project">
+      <h3>Secure Online Patient Booking System</h3>
+      <p>
+        A secure online patient appointment booking system with encrypted data handling to ensure privacy and safe management of patient information.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- CONNECT -->
+  <div class="card">
+    <h2>Connect with Me</h2>
+
+    <div class="icons">
+      <i class="fab fa-github"></i>
+      <i class="fab fa-linkedin"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-whatsapp"></i>
+    </div>
+  </div>
 
 </div>
 
