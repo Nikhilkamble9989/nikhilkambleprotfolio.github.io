@@ -1,0 +1,91 @@
+{% extends "hsa/base_hsa.html" %}
+
+{% block title %}Reschedule Appointment - HealthCare Portal{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-calendar-alt"></i> Reschedule Appointment
+    </h1>
+    <p style="color: var(--gray-500); margin-top: 0.5rem;">Update appointment date and time</p>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <i class="fas fa-info-circle" style="color: var(--primary-pink);"></i> Current Appointment Details
+        </h3>
+        
+        <div style="font-size: 0.875rem; color: var(--gray-600);">
+            <p style="margin-bottom: 0.75rem;">
+                <strong><i class="fas fa-user"></i> Patient:</strong> {{ appointment.patient.full_name }}
+            </p>
+            <p style="margin-bottom: 0.75rem;">
+                <strong><i class="fas fa-user-md"></i> Doctor:</strong> Dr. {{ appointment.doctor.full_name }}
+            </p>
+            <p style="margin-bottom: 0.75rem;">
+                <strong><i class="fas fa-stethoscope"></i> Specialization:</strong> {{ appointment.doctor.specialization }}
+            </p>
+            <p style="margin-bottom: 0.75rem;">
+                <strong><i class="fas fa-calendar"></i> Current Date:</strong> {{ appointment.appointment_date.strftime('%B %d, %Y') }}
+            </p>
+            <p style="margin-bottom: 0.75rem;">
+                <strong><i class="fas fa-clock"></i> Current Time:</strong> {{ appointment.appointment_time.strftime('%I:%M %p') }}
+            </p>
+            <p style="margin-bottom: 0.75rem;">
+                <strong><i class="fas fa-clipboard"></i> Reason:</strong> {{ appointment.reason_for_visit }}
+            </p>
+            <p>
+                <strong><i class="fas fa-tag"></i> Status:</strong> 
+                <span class="badge badge-{{ appointment.status }}">{{ appointment.status.title() }}</span>
+            </p>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <i class="fas fa-edit" style="color: var(--primary-pink);"></i> New Schedule
+        </h3>
+        
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                <label class="form-label" for="new_date">
+                    <i class="fas fa-calendar"></i> New Date *
+                </label>
+                {{ form.new_date(class="form-control", type="date") }}
+                {% for error in form.new_date.errors %}
+                    <small style="color: var(--danger);">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="new_time">
+                    <i class="fas fa-clock"></i> New Time *
+                </label>
+                {{ form.new_time(class="form-control", type="time") }}
+                {% for error in form.new_time.errors %}
+                    <small style="color: var(--danger);">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="notes">
+                    <i class="fas fa-sticky-note"></i> Notes (Optional)
+                </label>
+                {{ form.notes(class="form-control", rows="3", placeholder="Add any notes about the rescheduling") }}
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Reschedule Appointment
+                </button>
+                <a href="{{ url_for('hsa_appointments') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

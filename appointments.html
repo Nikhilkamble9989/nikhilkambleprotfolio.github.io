@@ -1,0 +1,141 @@
+{% extends "patient/base_patient.html" %}
+
+{% block title %}My Appointments - HealthCare Portal{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-calendar-check"></i> My Appointments
+    </h1>
+    <p style="color: var(--gray-500); margin-top: 0.5rem;">View and manage your appointment history</p>
+</div>
+
+<div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+    <a href="{{ url_for('book_appointment') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Book New Appointment
+    </a>
+</div>
+
+<div class="section-header">
+    <h2 class="section-title">
+        <i class="fas fa-clock" style="color: var(--success);"></i> Upcoming Appointments
+    </h2>
+</div>
+
+{% if upcoming %}
+<div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+    {% for apt in upcoming %}
+    <div class="appointment-card upcoming">
+        <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.25rem;">
+                    {{ apt.doctor.full_name[0] }}
+                </div>
+                <div>
+                    <h3 style="font-weight: 600; font-size: 1rem;">Dr. {{ apt.doctor.full_name }}</h3>
+                    <p style="color: var(--primary-pink); font-size: 0.875rem;"><i class="fas fa-stethoscope"></i> {{ apt.doctor.specialization }}</p>
+                </div>
+            </div>
+            
+            <span class="badge badge-{{ apt.status }}">
+                <i class="fas fa-{% if apt.status == 'pending' %}clock{% elif apt.status == 'approved' %}check{% elif apt.status == 'rescheduled' %}calendar-alt{% else %}info{% endif %}"></i>
+                {{ apt.status.title() }}
+            </span>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-100);">
+            <div>
+                <p style="color: var(--gray-500); font-size: 0.75rem; margin-bottom: 0.25rem;">Date & Time</p>
+                <p style="font-weight: 500;">
+                    <i class="fas fa-calendar" style="color: var(--primary-pink);"></i> {{ apt.appointment_date.strftime('%B %d, %Y') }}
+                    <br><i class="fas fa-clock" style="color: var(--primary-pink);"></i> {{ apt.appointment_time.strftime('%I:%M %p') }}
+                </p>
+                {% if apt.rescheduled_date %}
+                <p style="color: var(--info); font-size: 0.875rem; margin-top: 0.5rem;">
+                    <i class="fas fa-redo"></i> Rescheduled to: {{ apt.rescheduled_date.strftime('%b %d, %Y') }} at {{ apt.rescheduled_time.strftime('%I:%M %p') }}
+                </p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <p style="color: var(--gray-500); font-size: 0.75rem; margin-bottom: 0.25rem;">Reason for Visit</p>
+                <p style="font-size: 0.875rem;">{{ apt.reason_for_visit }}</p>
+            </div>
+            
+            {% if apt.symptoms %}
+            <div>
+                <p style="color: var(--gray-500); font-size: 0.75rem; margin-bottom: 0.25rem;">Symptoms</p>
+                <p style="font-size: 0.875rem;">{{ apt.symptoms }}</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if apt.status in ['pending', 'approved'] %}
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-100);">
+            <form method="POST" action="{{ url_for('patient_cancel_appointment', appointment_id=apt.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="fas fa-times"></i> Cancel Appointment
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state" style="background: var(--white); border-radius: 1rem; margin-bottom: 2rem;">
+    <i class="fas fa-calendar-plus" style="font-size: 3rem;"></i>
+    <h3>No Upcoming Appointments</h3>
+    <p>You don't have any upcoming appointments scheduled.</p>
+    <a href="{{ url_for('book_appointment') }}" class="btn btn-primary" style="margin-top: 1rem;">
+        <i class="fas fa-plus"></i> Book an Appointment
+    </a>
+</div>
+{% endif %}
+
+<div class="section-header" style="margin-top: 3rem;">
+    <h2 class="section-title">
+        <i class="fas fa-history" style="color: var(--gray-500);"></i> Past Appointments
+    </h2>
+</div>
+
+{% if past %}
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Date & Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for apt in past %}
+            <tr style="opacity: 0.8;">
+                <td>
+                    <strong>Dr. {{ apt.doctor.full_name }}</strong>
+                    <br><small style="color: var(--primary-pink);">{{ apt.doctor.specialization }}</small>
+                </td>
+                <td>
+                    <i class="fas fa-calendar" style="color: var(--gray-400);"></i> {{ apt.appointment_date.strftime('%b %d, %Y') }}
+                    <br><i class="fas fa-clock" style="color: var(--gray-400);"></i> {{ apt.appointment_time.strftime('%I:%M %p') }}
+                </td>
+                <td>{{ apt.reason_for_visit[:50] }}{% if apt.reason_for_visit|length > 50 %}...{% endif %}</td>
+                <td>
+                    <span class="badge badge-{{ apt.status }}">{{ apt.status.title() }}</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty-state" style="background: var(--white); border-radius: 1rem;">
+    <i class="fas fa-history" style="font-size: 2rem;"></i>
+    <h3>No Past Appointments</h3>
+    <p>Your appointment history will appear here.</p>
+</div>
+{% endif %}
+{% endblock %}

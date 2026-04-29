@@ -1,0 +1,124 @@
+{% extends "patient/base_patient.html" %}
+
+{% block title %}Book Appointment - HealthCare Portal{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+    <h1 class="page-title">
+        <i class="fas fa-calendar-plus"></i> Book Appointment
+    </h1>
+    <p style="color: var(--gray-500); margin-top: 0.5rem;">Schedule an appointment with our healthcare professionals</p>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <i class="fas fa-calendar-check" style="color: var(--primary-pink);"></i> Appointment Details
+        </h3>
+        
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                <label class="form-label" for="doctor_id">
+                    <i class="fas fa-user-md"></i> Select Doctor *
+                </label>
+                {{ form.doctor_id(class="form-control") }}
+                {% for error in form.doctor_id.errors %}
+                    <small style="color: var(--danger);">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="appointment_date">
+                    <i class="fas fa-calendar"></i> Preferred Date *
+                </label>
+                {{ form.appointment_date(class="form-control", type="date") }}
+                {% for error in form.appointment_date.errors %}
+                    <small style="color: var(--danger);">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="appointment_time">
+                    <i class="fas fa-clock"></i> Preferred Time *
+                </label>
+                {{ form.appointment_time(class="form-control", type="time") }}
+                {% for error in form.appointment_time.errors %}
+                    <small style="color: var(--danger);">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="reason_for_visit">
+                    <i class="fas fa-clipboard"></i> Reason for Visit *
+                </label>
+                {{ form.reason_for_visit(class="form-control", rows="3", placeholder="Please describe the reason for your visit...") }}
+                {% for error in form.reason_for_visit.errors %}
+                    <small style="color: var(--danger);">{{ error }}</small>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="symptoms">
+                    <i class="fas fa-notes-medical"></i> Current Symptoms (Optional)
+                </label>
+                {{ form.symptoms(class="form-control", rows="3", placeholder="Describe any symptoms you are experiencing...") }}
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-calendar-check"></i> Book Appointment
+            </button>
+        </form>
+    </div>
+    
+    <div>
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <i class="fas fa-user-md" style="color: var(--primary-pink);"></i> Available Doctors
+            </h3>
+            
+            {% if doctors %}
+                {% for doctor in doctors %}
+                <div style="padding: 1rem; border: 1px solid var(--gray-200); border-radius: 0.75rem; margin-bottom: 0.75rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                            {{ doctor.full_name[0] }}
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 600; font-size: 0.875rem;">Dr. {{ doctor.full_name }}</h4>
+                            <p style="color: var(--primary-pink); font-size: 0.75rem;"><i class="fas fa-stethoscope"></i> {{ doctor.specialization }}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--gray-600); display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.25rem;">
+                        <span><i class="fas fa-graduation-cap"></i> {{ doctor.qualification }}</span>
+                        <span><i class="fas fa-briefcase"></i> {{ doctor.experience_years }} yrs exp.</span>
+                        <span><i class="fas fa-dollar-sign"></i> Fee: ${{ "%.2f"|format(doctor.consultation_fee) }}</span>
+                        {% if doctor.available_days %}
+                        <span><i class="fas fa-calendar-week"></i> {{ doctor.available_days }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state" style="padding: 2rem;">
+                    <i class="fas fa-user-md" style="font-size: 2rem;"></i>
+                    <p>No doctors available at the moment.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="card" style="background: linear-gradient(135deg, var(--bg-pink-light), var(--bg-pink));">
+            <h3 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <i class="fas fa-info-circle" style="color: var(--primary-pink);"></i> Booking Tips
+            </h3>
+            <ul style="font-size: 0.875rem; color: var(--gray-600); padding-left: 1.25rem;">
+                <li style="margin-bottom: 0.5rem;">Choose a doctor based on your medical needs</li>
+                <li style="margin-bottom: 0.5rem;">Select a date at least 24 hours in advance</li>
+                <li style="margin-bottom: 0.5rem;">Provide detailed symptoms for better diagnosis</li>
+                <li>Appointments require approval from the administrator</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
